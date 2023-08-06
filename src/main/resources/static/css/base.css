@@ -1,0 +1,158 @@
+/*************************** Variables Section. *****************************/
+/* ============= Base ============= */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #5d6778;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #252930;
+    font-weight: 600;
+}
+a {
+    color: #15a362;
+    text-decoration: none;
+}
+a:hover {
+    color: #128c54;
+}
+hr {
+    background: #adb4c0;
+}
+.text-muted {
+    color: #9fa7b5 !important;
+}
+.table-dark {
+    background: #252930;
+    color: #fff;
+}
+.table-bordered th, .table-bordered td {
+    border-color: #e7e9ed;
+}
+.table th, .table td {
+    border-color: #e7e9ed;
+}
+.table thead th {
+    border-color: #e7e9ed;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f5f5f5;
+}
+.table-dark th, .table-dark td, .table-dark thead th {
+    border-color: #515a6a;
+}
+.table-hover > tbody > tr:hover {
+    background-color: #fff;
+}
+.popover {
+    border-color: #dee1fc;
+}
+.bs-popover-left > .arrow::before, .bs-popover-auto[x-placement^="left"] > .arrow::before {
+    border-left-color: #dee1fc;
+}
+.bs-popover-right > .arrow::before, .bs-popover-auto[x-placement^="right"] > .arrow::before {
+    border-right-color: #dee1fc;
+}
+.bs-popover-top > .arrow::before, .bs-popover-auto[x-placement^="top"] > .arrow::before {
+    border-top-color: #dee1fc;
+}
+.bs-popover-bottom > .arrow::before, .bs-popover-auto[x-placement^="bottom"] > .arrow::before {
+    border-bottom-color: #dee1fc;
+}
+a.app-link {
+    color: #252930;
+    text-decoration: underline;
+    -webkit-text-decoration-color: rgba(37, 41, 48, 0.3);
+    text-decoration-color: rgba(37, 41, 48, 0.3);
+}
+a.app-link:hover {
+    color: #15a362;
+    -webkit-text-decoration-color: rgba(21, 163, 98, 0.8);
+    text-decoration-color: rgba(21, 163, 98, 0.8);
+}
+button.close:focus {
+    outline: none;
+    box-shadow: none;
+}
+.btn {
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    border: none;
+}
+.btn:hover, .btn:active, .btn:focus {
+    text-decoration: none;
+}
+.btn .bi {
+    position: relative;
+    top: -2px;
+}
+.btn:focus, .btn.focus {
+    box-shadow: none !important;
+}
+.app-btn-primary {
+    background: #15a362;
+    color: #fff;
+    border-color: #15a362;
+}
+.app-btn-primary:hover, .app-btn-primary:active {
+    color: #fff;
+    background: #18ba70;
+    border-color: #18ba70;
+}
+.app-btn-secondary {
+    background: white;
+    color: #5d6778;
+    border: 1px solid #bcc1cb;
+}
+.app-btn-secondary:hover {
+    color: #15a362;
+    border: 1px solid #15a362;
+    background: white;
+}
+.btn-light {
+    background: #f5f6fe;
+    color: #15a362;
+}
+.btn-light:hover {
+    background: #f5f6fe;
+    color: #15a362;
+}
+.form-control {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    height: 2.5rem;
+    border-color: #e7e9ed;
+    color: #5d6778;
+}
+.form-control:focus {
+    box-shadow: none;
+    outline: none;
+    color: #5d6778;
+}
+.form-check-input:checked {
+    background-color: #15a362;
+    border-color: #15a362;
+}
+.dropdown-menu {
+    border-color: #e7e9ed;
+}
+.dropdown-menu .dropdown-item {
+    padding: 0.5rem 1rem;
+}
+.dropdown-menu .dropdown-item:hover {
+    color: #252930;
+}
+.dropdown-menu .dropdown-item:hover, .dropdown-menu .dropdown-item:focus {
+    background: #fafbff;
+}
+.dropdown-menu .dropdown-item.active, .dropdown-menu .dropdown-item:active {
+    background: #fafbff;
+}
+.dropdown-divider {
+    border-top-color: #e7e9ed;
+    opacity: 1;
+}
+.dropdown-toggle.no-toggle-arrow:after {
+    display: none !important;
+}
