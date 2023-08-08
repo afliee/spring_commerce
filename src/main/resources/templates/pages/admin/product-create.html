@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Categories</title>
+    <title>Create New Product</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css}">
     <link rel="stylesheet" th:href="@{/css/app.css}">
@@ -20,7 +20,7 @@
                 <form action="/" method="post" class="card p-3">
                     <div class="app-card-header">
                         <div class="app-card-header-title">
-                            <h4>Create Category</h4>
+                            <h4>Create Product</h4>
                         </div>
                     </div>
                     <div class="app-card-body">
@@ -29,31 +29,52 @@
                             <span class="input-group-text">
                                 <i class="bi bi-journal-text"></i>
                             </span>
-                            <input type="text" class="form-control" placeholder="Name" aria-label="Name"
+                            <input type="text" class="form-control" required placeholder="Name" aria-label="Name"
                                    aria-describedby="basic-addon1" name="name" id="name">
+                        </div>
+<!--                        include image and quantity and price-->
+                        <div class="input-group my-3 ">
+                            <span class="input-group-text">
+                                <i class="bi bi-list-ol"></i>
+                            </span>
+                            <input type="number" class="form-control" required placeholder="Quantity" aria-label="Quantity"
+                                   aria-describedby="basic-addon1" name="quantity" id="quantity">
+                        </div>
+                        <div class="input-group my-3 ">
+                            <span class="input-group-text">
+                                <i class="bi bi-currency-dollar"></i>
+                            </span>
+                            <input type="number" class="form-control" required placeholder="Price" aria-label="Price"
+                                   aria-describedby="basic-addon1" name="price" id="price">
+                        </div>
+                        <div class="input-group my-3 ">
+<!--                            just allow jpg or png-->
+                            <input type="file" class="form-control" required placeholder="Image" aria-label="Image"
+                                   aria-describedby="basic-addon1" name="image" id="image"  accept="image/png, image/jpeg, image/jpg">
                         </div>
                         <div class="input-group-text my-3 d-flex ">
                             <label for="description" class="input-group-text me-3">
                                 <i class="bi bi-file-text"></i>
                             </label>
-                            <textarea class="form-control" style="min-height: 300px" placeholder="Description" aria-label="Description"
+                            <textarea class="form-control" required style="min-height: 300px" placeholder="Description" aria-label="Description"
                                       aria-describedby="basic-addon1" name="description" id="description" rows="3"></textarea>
                         </div>
 
                     </div>
                     <button type="submit" class="btn app-btn-primary btn-create">
-                        Create New Category
+                        Create New Product
                     </button>
                 </form>
             </div>
         </div>
     </div>
+    <input type="hidden" name="categoryId" id="categoryId" th:value="${category.id}">
 </div>
 <script th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/webjars/sweetalert2/11.7.20/dist/sweetalert2.all.min.js}"></script>
 <script th:src="@{/js/sidebar.js}"></script>
-<script th:src="@{/js/admin/category/add.js}"></script>
+<script th:src="@{/js/admin/product/add.js}"></script>
 </body>
 </html>

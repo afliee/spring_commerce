@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,8 +19,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EnableJpaAuditing
 @EqualsAndHashCode(exclude = {"createdDate", "updatedDate"})
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(generator = "UUID")

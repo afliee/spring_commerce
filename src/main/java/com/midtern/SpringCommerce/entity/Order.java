@@ -2,6 +2,7 @@ package com.midtern.SpringCommerce.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class Order extends BaseEntity {
     @Column(name = "`total`",
             columnDefinition = "INT(11) DEFAULT 0",

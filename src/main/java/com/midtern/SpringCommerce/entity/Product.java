@@ -1,10 +1,8 @@
 package com.midtern.SpringCommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Set;
 
@@ -14,6 +12,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @Data
+@EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(exclude = {"carts"}, callSuper = true)
 public class Product extends BaseEntity {
     private String name;
     private String description;

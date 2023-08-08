@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.getName()}"></title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/webjars/sweetalert2/11.7.20/dist/sweetalert2.min.css}">
+</head>
+<body>
+<div class="app">
+    <th:block th:insert="~{fragments/sidebar :: sidebar(active = 'category')}"/>
+    <div class="app-wrapper">
+        <div class="app-content app-content pt-3 p-md-3 p-lg-4">
+            <div class="container-xl">
+                <form action="/" method="post" class="card p-3">
+                    <div class="app-card-header">
+                        <div class="app-card-header-title">
+                            <h4>Edit Product</h4>
+                        </div>
+                    </div>
+                    <div class="app-card-body">
+                        <!--            include title and description-->
+                        <div class="input-group my-3 ">
+                            <span class="input-group-text">
+                                <i class="bi bi-journal-text"></i>
+                            </span>
+                            <input type="text" class="form-control" required placeholder="Name" aria-label="Name"
+                                   aria-describedby="basic-addon1" name="name" id="name" th:value="${product.name}">
+                        </div>
+                        <!--                        include image and quantity and price-->
+                        <div class="input-group my-3 ">
+                            <span class="input-group-text">
+                                <i class="bi bi-list-ol"></i>
+                            </span>
+                            <input type="number" class="form-control" required placeholder="Quantity"
+                                   aria-label="Quantity"
+                                   aria-describedby="basic-addon1" name="quantity" id="quantity"
+                                   th:value="${product.quantity}">
+                        </div>
+                        <div class="input-group my-3 ">
+                            <span class="input-group-text">
+                                <i class="bi bi-currency-dollar"></i>
+                            </span>
+                            <input type="number" class="form-control" required placeholder="Price" aria-label="Price"
+                                   aria-describedby="basic-addon1" name="price" id="price" th:value="${product.price}">
+                        </div>
+                        <div class="input-group my-3 ">
+                            <!--                            just allow jpg or png-->
+                            <input type="file" class="form-control" required placeholder="Image" aria-label="Image"
+                                   th:attr="data-image=${product.image}"
+                                   th:value="${product.image}"
+                                   aria-describedby="basic-addon1" name="image" id="image"
+                                   accept="image/png, image/jpeg, image/jpg">
+                        </div>
+                        <div class="input-group-text my-3 d-flex ">
+                            <label for="description" class="input-group-text me-3">
+                                <i class="bi bi-file-text"></i>
+                            </label>
+                            <textarea class="form-control" required style="min-height: 300px" placeholder="Description"
+                                      aria-label="Description"
+                                      aria-describedby="basic-addon1" name="description" id="description" rows="3"
+                                      th:text="${product.description}"
+                            ></textarea>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn app-btn-primary btn-update">
+                        Update This Product
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="id" id="id" th:value="${product.id}">
+    <input type="hidden" name="categoryId" id="categoryId" th:value="${product.category.id}">
+</div>
+<script th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/webjars/sweetalert2/11.7.20/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/admin/product/update.js}"></script>
+</body>
+</html>

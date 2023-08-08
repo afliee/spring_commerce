@@ -102,7 +102,7 @@ public class JwtService {
     }
 
     public boolean isAdmin(String token) {
-        return hasRole(Role.ADMIN, token);
+        return hasRole(Role.ADMIN, token) && validateToken(token);
     }
 }
 

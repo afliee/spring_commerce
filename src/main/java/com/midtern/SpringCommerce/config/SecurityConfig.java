@@ -1,5 +1,6 @@
 package com.midtern.SpringCommerce.config;
 
+import com.midtern.SpringCommerce.constant.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +30,17 @@ public class SecurityConfig {
             "/api/auth/**",
             "/home",
             "/admin/**",
+            "/uploads/product/**",
             "/",
     };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/category/**")
+                        .hasRole(Role.ADMIN.name())
+                )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(PUBLIC_PATHS)
                         .permitAll()
