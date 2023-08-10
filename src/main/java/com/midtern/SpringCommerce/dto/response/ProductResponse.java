@@ -1,5 +1,6 @@
 package com.midtern.SpringCommerce.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductResponse {
     private String id;
     private String name;
@@ -22,4 +24,6 @@ public class ProductResponse {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate createdAt;
+
+    private int amount;
 }

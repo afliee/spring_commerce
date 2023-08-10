@@ -2,6 +2,7 @@ package com.midtern.SpringCommerce.converter;
 
 import com.midtern.SpringCommerce.dto.request.ProductRequest;
 import com.midtern.SpringCommerce.dto.response.ProductResponse;
+import com.midtern.SpringCommerce.entity.CartProduct;
 import com.midtern.SpringCommerce.entity.Product;
 
 import java.util.Set;
@@ -12,6 +13,21 @@ public class ProductConverter {
         return products.stream().map(ProductConverter::toResponse).collect(Collectors.toSet());
     }
 
+    public static Set<ProductResponse> toResponseCartProduct(Set<CartProduct> cartProducts) {
+        return cartProducts.stream().map(cartProduct -> {
+            var product = cartProduct.getProduct();
+            return ProductResponse.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .description(product.getDescription())
+                    .image(product.getImage())
+                    .price(product.getPrice())
+                    .quantity(product.getQuantity())
+                    .createdAt(product.getCreatedDate())
+                    .amount(cartProduct.getQuantity())
+                    .build();
+        }).collect(Collectors.toSet());
+    }
     public static ProductResponse toResponse(Product product) {
         return ProductResponse.builder()
                 .id(product.getId())

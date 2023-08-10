@@ -2,10 +2,7 @@ package com.midtern.SpringCommerce.entity;
 
 import com.midtern.SpringCommerce.constant.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +16,7 @@ import java.util.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(exclude = {"cart", "orders"}, callSuper = false)
 public class User extends BaseEntity implements UserDetails {
     @Column(unique = true)
     private String username;

@@ -1,10 +1,7 @@
 package com.midtern.SpringCommerce.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Set;
@@ -16,17 +13,20 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(exclude = "cartProducts", callSuper = false)
 public class Cart extends BaseEntity {
-    private Integer total;
+    private Double total;
 
     @OneToOne(mappedBy = "cart", targetEntity = User.class)
     private User user;
 
-    @ManyToMany(targetEntity = Product.class)
-    @JoinTable(
-            name = "cart_product",
-            joinColumns = @JoinColumn(name = "cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Set<Product> products;
+//    @ManyToMany(targetEntity = Product.class)
+//    @JoinTable(
+//            name = "cart_product",
+//            joinColumns = @JoinColumn(name = "cart_id"),
+//            inverseJoinColumns = @JoinColumn(name = "product_id")
+//    )
+//    private Set<Product> products;
+    @OneToMany(mappedBy = "cart", targetEntity = CartProduct.class)
+    private Set<CartProduct> cartProducts;
 }

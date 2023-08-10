@@ -4,19 +4,25 @@ import com.midtern.SpringCommerce.converter.ProductConverter;
 import com.midtern.SpringCommerce.dto.request.ProductRequest;
 import com.midtern.SpringCommerce.dto.response.CategoryResponse;
 import com.midtern.SpringCommerce.dto.response.ProductResponse;
+import com.midtern.SpringCommerce.entity.Category;
+import com.midtern.SpringCommerce.entity.Product;
 import com.midtern.SpringCommerce.exception.NotFoundException;
-import com.midtern.SpringCommerce.repository.CategoryRepositoryImpl;
-import com.midtern.SpringCommerce.repository.ProductRepository;
+import com.midtern.SpringCommerce.repository.*;
+import com.midtern.SpringCommerce.utils.CategorySpecification;
 import com.midtern.SpringCommerce.utils.FileUploadUtil;
+import com.midtern.SpringCommerce.utils.ProductSpecification;
+import com.midtern.SpringCommerce.utils.SearchCriteria;
+import jakarta.transaction.Transactional;
 import org.apache.tomcat.util.http.fileupload.FileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -24,6 +30,13 @@ public class ProductService {
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepositoryImpl categoryRepository;
+
+    @Autowired
+    private CartProductRepository cartProductRepository;
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
 
 
     public ProductResponse create(ProductRequest request) {
@@ -53,6 +66,7 @@ public class ProductService {
         return ProductConverter.toResponse(productSaved);
     }
 
+    @Transactional
     public ProductResponse delete(String id) {
         var product = productRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Product not found")
@@ -63,6 +77,16 @@ public class ProductService {
                     categoryRepository.save(category);
                 }
         );
+
+        cartProductRepository.deleteAllByProduct_Id(id);
+        orderRepository.findAllByOrderDetails_Product_Id(id).forEach(
+                order -> {
+                    order.getOrderDetails().removeIf(orderDetail -> orderDetail.getProduct().getId().equals(id));
+                    orderRepository.save(order);
+                }
+        );
+        orderDetailRepository.deleteAllByProduct_Id(id);
+
 //        delete file in server
         String filePath = product.getImage();
         try {
@@ -127,5 +151,49 @@ public class ProductService {
         }
 
         return ProductConverter.toResponse(productRepository.save(product));
+    }
+
+    public Set<ProductResponse> getAll() {
+        return ProductConverter.toResponse(new HashSet<>(productRepository.findAll()));
+    }
+
+    public Set<ProductResponse> getAll(String filter) {
+        List<SearchCriteria> params = new ArrayList<>();
+        List<String> fieldsArr = new ArrayList<>();
+
+        var fields = Product.class.getDeclaredFields();
+        for (var field : fields) {
+            var type = field.getType();
+            if (type == String.class) {
+                fieldsArr.add(field.getName());
+            }
+        }
+
+        for (var field : fieldsArr) {
+            params.add(new SearchCriteria(field, ":", filter));
+        }
+
+        Specification<Product> specification = Specification.where(null);
+        for (SearchCriteria param : params) {
+            specification = specification.or(ProductSpecification.builder().criteria(param).build());
+        }
+
+        return ProductConverter.toResponse(new HashSet<>(productRepository.findAll(specification)));
+    }
+
+    public ProductResponse getById(String id) {
+        return ProductConverter.toResponse(productRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Product not found")
+        ));
+    }
+
+    public Set<ProductResponse> findAllById(String[] ids) {
+        return ProductConverter.toResponse(new HashSet<>(productRepository.findAllByIdIn(Arrays.asList(ids))));
+    }
+
+    public Product findById(String id) {
+        return productRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Product not found")
+        );
     }
 }

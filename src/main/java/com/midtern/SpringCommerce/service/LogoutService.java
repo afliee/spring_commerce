@@ -1,6 +1,7 @@
 package com.midtern.SpringCommerce.service;
 
 import com.midtern.SpringCommerce.repository.TokenRepository;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,21 @@ public class LogoutService implements LogoutHandler {
             tokenStored.setRevoked(true);
             tokenStored.setExpired(true);
             tokenRepository.save(tokenStored);
+//            delete cookie user
+            Cookie userCookie = new Cookie("user", null);
+            userCookie.setMaxAge(0);
+            userCookie.setPath("/");
+            response.addCookie(userCookie);
+//            delete cookie products
+            Cookie tokenCookie = new Cookie("token", null);
+            userCookie.setMaxAge(0);
+            userCookie.setPath("/");
+            response.addCookie(tokenCookie);
+
+            Cookie productCookie = new Cookie("products", "");
+            productCookie.setMaxAge(60 * 60 * 24 * 30);
+            productCookie.setPath("/");
+            response.addCookie(productCookie);
             SecurityContextHolder.clearContext();
         }
     }

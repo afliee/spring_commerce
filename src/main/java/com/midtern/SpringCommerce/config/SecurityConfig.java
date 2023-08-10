@@ -32,6 +32,13 @@ public class SecurityConfig {
             "/admin/**",
             "/uploads/product/**",
             "/",
+            "/gallery",
+            "/cart/**",
+            "/login",
+            "/product/find",
+            "/checkout",
+            "/order/**",
+            "/orders/**",
     };
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -56,7 +63,7 @@ public class SecurityConfig {
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout")
-                        .logoutSuccessUrl("/home")
+                        .logoutSuccessUrl("/")
                         .addLogoutHandler(logoutHandler)
                 )
                 .exceptionHandling(exception -> exception

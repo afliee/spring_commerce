@@ -3,6 +3,7 @@ package com.midtern.SpringCommerce.controller.api;
 import com.midtern.SpringCommerce.dto.request.AuthenticationRequest;
 import com.midtern.SpringCommerce.dto.request.RegisterRequest;
 import com.midtern.SpringCommerce.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,9 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<?> authentication(
             @RequestBody AuthenticationRequest authenticationRequest,
-            HttpServletResponse response
+            HttpServletResponse response,
+            HttpServletRequest request
     ) {
-        return ResponseEntity.ok(userService.authenticate(authenticationRequest, response));
+        return ResponseEntity.ok(userService.authenticate(authenticationRequest, response, request));
     }
 }

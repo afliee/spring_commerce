@@ -66,6 +66,33 @@ public class CategoryService {
 
         return categoryRepository.findAll(specification, pageRequest).map(CategoryConverter::toResponse);
     }
+    public List<CategoryResponse> getAll() {
+        return CategoryConverter.toResponse(categoryRepository.findAll());
+    }
+
+    public List<CategoryResponse> getAll(String filter, String[] attrs) {
+        List<SearchCriteria> params = new ArrayList<>();
+        List<String> fieldsArr = new ArrayList<>();
+
+        var fields = Category.class.getDeclaredFields();
+        for (var field : fields) {
+//            get type of field;
+            var type = field.getType();
+            if (type == String.class) {
+                fieldsArr.add(field.getName());
+            }
+        }
+
+        for (var field : fieldsArr) {
+            params.add(new SearchCriteria(field, ":" , filter));
+        }
+        Specification<Category> specification = Specification.where(null);
+        for (SearchCriteria param : params) {
+            specification = specification.or(CategorySpecification.builder().criteria(param).build());
+        }
+
+        return CategoryConverter.toResponse(categoryRepository.findAll(specification), attrs);
+    }
 
     public CategoryResponse findById(String id) {
         return CategoryConverter.toResponse(categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found")));
@@ -86,5 +113,13 @@ public class CategoryService {
 
     public Product findProductById(String id) {
         return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public List<CategoryResponse> findAll() {
+        return CategoryConverter.toResponse(categoryRepository.findAll());
+    }
+
+    public List<CategoryResponse> findAll(String[] attrs) {
+        return CategoryConverter.toResponse(categoryRepository.findAll(), attrs);
     }
 }

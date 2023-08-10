@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}">
+    <link rel="stylesheet" th:href="@{/webjars/sweetalert2/11.7.20/dist/sweetalert2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/style.css}">
+    <link rel="stylesheet" th:href="@{/css/user/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/user/custom.css}">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.4.0/css/all.min.css}">
+</head>
+<body>
+<th:block th:replace="~{/fragments/user/header :: header}"/>
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-main table-responsive">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Images</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="product : ${products}">
+                            <tr class="product" th:attr="data-id=${product.id}">
+                                <td class="thumbnail-img">
+                                    <a href="#">
+                                        <img class="img-fluid" th:src="${product.image}" alt=""/>
+                                    </a>
+                                </td>
+                                <td class="name-pr">
+                                    <a th:text="${product.name}" href="#">
+                                    </a>
+                                </td>
+                                <td class="price-pr">
+                                    <p th:text="'$ ' + ${product.price}">$ 80.0</p>
+                                </td>
+                                <td class="quantity-box"><input type="number" size="4" th:max="${product.quantity}"
+                                                                value="1" min="0" step="1" th:value="${product.amount}"
+                                                                class="c-input-text qty text" id="amount"></td>
+                                <td class="total-pr">
+                                    <p th:text="${product.amount * product.price}" class="total_price">$ 80.0</p>
+                                </td>
+                                <td class="remove-pr" th:attr="data-id=${product.id}">
+                                    <a href="#">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-lg-6 col-sm-6 offset-6">
+            </div>
+            <div class="col-lg-6 col-sm-6 d-flex justify-content-end">
+                <div class="update-box">
+                    <input value="Update Cart" type="submit">
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-lg-6 col-sm-12"></div>
+            <div class="col-lg-6 col-sm-12">
+                <div class="order-box">
+                    <h3>Order summary</h3>
+<!--                    <div class="d-flex">-->
+<!--                        <h4>Sub Total</h4>-->
+<!--                        <div class="ml-auto font-weight-bold"> $ 130</div>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex">-->
+<!--                        <h4>Discount</h4>-->
+<!--                        <div class="ml-auto font-weight-bold"> $ 40</div>-->
+<!--                    </div>-->
+<!--                    <hr class="my-1">-->
+<!--                    <div class="d-flex">-->
+<!--                        <h4>Coupon Discount</h4>-->
+<!--                        <div class="ml-auto font-weight-bold"> $ 10</div>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex">-->
+<!--                        <h4>Tax</h4>-->
+<!--                        <div class="ml-auto font-weight-bold"> $ 2</div>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex">-->
+<!--                        <h4>Shipping Cost</h4>-->
+<!--                        <div class="ml-auto font-weight-bold"> Free</div>-->
+<!--                    </div>-->
+<!--                    <hr>-->
+                    <div class="d-flex gr-total">
+                        <h5>Grand Total </h5>
+                        <th:block th:if="${user?.cart}" >
+                            <div class="ml-auto h5 total_all" th:text="${user?.cart.total}"></div>
+                        </th:block>
+                        <th:block th:unless="${user?.cart}">
+                            <div class="ml-auto h5 total_all" th:text="${total}"></div>
+                        </th:block>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="col-12 d-flex shopping-box justify-content-end"><a th:href="@{/checkout}"
+                                                                           class="ml-auto btn hvr-hover">Checkout</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- End Cart -->
+
+<!-- End Products  -->
+<script th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/2.0.2/umd/popper.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/sweetalert2/11.7.20/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/webjars/font-awesome/6.4.0/js/all.min.js}"></script>
+<script th:src="@{/js/vendor/jquery.superslides.min.js}"></script>
+<script th:src="@{/js/vendor/bootstrap-select.js}"></script>
+<script th:src="@{/js/vendor/jquery.nicescroll.min.js}"></script>
+<script th:src="@{/js/vendor/jquery.superslides.min.js}"></script>
+<script th:src="@{/js/vendor/inewsticker.js}"></script>
+<script th:src="@{/js/vendor/images-loded.min.js}"></script>
+<script th:src="@{/js/vendor/isotope.min.js}"></script>
+<script th:src="@{/js/vendor/owl.carousel.min.js}"></script>
+<script th:src="@{/js/vendor/baguetteBox.min.js}"></script>
+<script th:src="@{/js/vendor/form-validator.min.js}"></script>
+<script th:src="@{/js/vendor/contact-form-script.js}"></script>
+<script th:src="@{/js/vendor/bootsnav.js}"></script>
+<script th:src="@{/js/vendor/custom.js}"></script>
+<script th:src="@{/js/user/addToCart.js}"></script>
+<script th:src="@{/js/user/cart.js}"></script>
+<script th:src="@{/js/user/deleteProduct.js}"></script>
+<script th:src="@{/js/user/updateCart.js}"></script>
+<script th:src="@{/js/user/logout.js}"></script>
+</body>
+</html>

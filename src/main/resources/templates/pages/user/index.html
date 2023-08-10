@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Commerce</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <link rel="stylesheet" th:href="@{/css/header.css}">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/pagination.css}">
+    <link rel="stylesheet" th:href="@{/webjars/sweetalert2/11.7.20/dist/sweetalert2.min.css}">
+    <link rel="stylesheet" th:href="@{/css/user/style.css}">
+    <link rel="stylesheet" th:href="@{/css/user/responsive.css}">
+    <link rel="stylesheet" th:href="@{/css/user/custom.css}">
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.4.0/css/all.min.css}">
+</head>
+<body>
+
+<th:block th:if="${user != null}">
+    <th:block th:replace="~{/fragments/user/header :: header(user = ${user})}"></th:block>
+</th:block>
+<th:block th:unless="${user != null}">
+    <th:block th:replace="~{/fragments/user/header :: header}"></th:block>
+</th:block>
+
+<div id="slides-shop" class="cover-slides">
+    <ul class="slides-container">
+        <li class="text-center">
+            <img th:src="@{/images/banner-01.jpg}" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Freshshop</strong></h1>
+                        <p class="m-b-40">See how your users experience your website in realtime or view <br> trends to
+                            see any changes in performance over time.</p>
+                        <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-center">
+            <img th:src="@{/images/banner-02.jpg}" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Freshshop</strong></h1>
+                        <p class="m-b-40">See how your users experience your website in realtime or view <br> trends to
+                            see any changes in performance over time.</p>
+                        <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="text-center">
+            <img th:src="@{/images/banner-03.jpg}" alt="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="m-b-20"><strong>Welcome To <br> Freshshop</strong></h1>
+                        <p class="m-b-40">See how your users experience your website in realtime or view <br> trends to
+                            see any changes in performance over time.</p>
+                        <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="slides-navigation">
+        <a href="#" class="next"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+        <a href="#" class="prev"><i class="fa fa-angle-left" aria-hidden="true"></i></a>
+    </div>
+</div>
+
+<div class="box-add-products">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="offer-box-products">
+                    <img class="img-fluid" th:src="@{/images/add-img-01.jpg}" alt=""/>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="offer-box-products">
+                    <img class="img-fluid" th:src="@{/images/add-img-02.jpg}" alt=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Start Products  -->
+<div class="products-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <h1>Fruits & Vegetables</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet lacus enim.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="special-menu text-center">
+                    <div class="button-group filter-button-group">
+                        <button class="active" data-filter="*">All</button>
+<!--                        <button data-filter=".top-featured">Top featured</button>-->
+<!--                        <button data-filter=".best-seller">Best seller</button>-->
+                        <th:block th:each="category : ${categories}">
+                            <button th:attr="data-filter='.' + ${category.id}" th:text="${category.name}"></button>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row special-list">
+            <th:block th:each="category: ${categories}">
+                <th:block th:each="product : ${category.products}">
+                    <div th:class="'col-lg-3 col-md-6 special-grid ' + ${category.id}">
+                        <div class="products-single fix">
+                            <div class="box-img-hover">
+                                <div class="type-lb">
+                                    <p class="sale">Sale</p>
+                                </div>
+                                <img th:src="${product.image}" class="img-fluid" alt="Image" style="max-height: 300px; height: 300px">
+                                <div class="mask-icon">
+                                    <ul>
+                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i
+                                                class="fas fa-eye"></i></a></li>
+                                    </ul>
+                                    <a class="cart" th:attr="data-id=${product.id}" href="#">Add to Cart</a>
+                                </div>
+                            </div>
+                            <div class="why-text">
+                                <h4 th:text="${product.name}"></h4>
+                                <h5 th:text="'$' + ${product.price}"></h5>
+                                <h5 th:text="'Quantity: ' + ${product.quantity}"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </th:block>
+        </div>
+    </div>
+</div>
+<!-- End Products  -->
+<script th:src="@{/webjars/jquery/3.6.4/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/2.0.2/umd/popper.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
+<script th:src="@{/webjars/sweetalert2/11.7.20/dist/sweetalert2.all.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/webjars/font-awesome/6.4.0/js/all.min.js}"></script>
+<script th:src="@{/js/vendor/jquery.superslides.min.js}"></script>
+<script th:src="@{/js/vendor/bootstrap-select.js}"></script>
+<script th:src="@{/js/vendor/jquery.nicescroll.min.js}"></script>
+<script th:src="@{/js/vendor/jquery.superslides.min.js}"></script>
+<script th:src="@{/js/vendor/inewsticker.js}"></script>
+<script th:src="@{/js/vendor/images-loded.min.js}"></script>
+<script th:src="@{/js/vendor/isotope.min.js}"></script>
+<script th:src="@{/js/vendor/owl.carousel.min.js}"></script>
+<script th:src="@{/js/vendor/baguetteBox.min.js}"></script>
+<script th:src="@{/js/vendor/form-validator.min.js}"></script>
+<script th:src="@{/js/vendor/contact-form-script.js}"></script>
+<script th:src="@{/js/vendor/bootsnav.js}"></script>
+<script th:src="@{/js/vendor/custom.js}"></script>
+<script th:src="@{/js/user/addToCart.js}"></script>
+<script th:src="@{/js/user/logout.js}"></script>
+</body>
+</html>

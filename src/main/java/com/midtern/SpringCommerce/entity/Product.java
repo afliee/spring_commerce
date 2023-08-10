@@ -27,9 +27,12 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany(
-            mappedBy = "products",
-            targetEntity = Cart.class
-    )
-    private Set<Cart> carts;
+//    @ManyToMany(
+//            mappedBy = "products",
+//            targetEntity = Cart.class
+//    )
+//    private Set<Cart> carts;
+
+        @OneToMany(mappedBy = "product", targetEntity = CartProduct.class)
+        private Set<CartProduct> cartProducts;
 }

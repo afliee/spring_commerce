@@ -3,10 +3,11 @@ package com.midtern.SpringCommerce.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "`order`")
 @Builder
@@ -14,21 +15,28 @@ import java.util.Set;
 @NoArgsConstructor
 @Data
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(exclude = {"orderDetails", "user"}, callSuper = false)
 public class Order extends BaseEntity {
-    @Column(name = "`total`",
-            columnDefinition = "INT(11) DEFAULT 0",
-            nullable = false
-    )
-    private Integer total;
+    @Column(name = "`total`")
+    private Double total;
 
     @Column(
             name = "address",
             columnDefinition = "TEXT"
     )
     private String address;
+    @Column(
+            name = "address2",
+            columnDefinition = "TEXT"
+    )
+    private String address2;
 
     @Column(name = "phone")
     private String phone;
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String email;
 
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id")
@@ -39,4 +47,7 @@ public class Order extends BaseEntity {
             targetEntity = OrderDetail.class
     )
     private Set<OrderDetail> orderDetails;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate expiredDate;
 }

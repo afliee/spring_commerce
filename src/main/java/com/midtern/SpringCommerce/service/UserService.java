@@ -15,10 +15,12 @@ import com.midtern.SpringCommerce.repository.CartRepository;
 import com.midtern.SpringCommerce.repository.TokenRepository;
 import com.midtern.SpringCommerce.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.WebUtils;
 
 import java.util.Collections;
 
@@ -83,6 +85,8 @@ public class UserService {
                 .cart(cart)
                 .build();
 
+//        var user = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()), Collections.singleton(request.getRole()), cart
+
         cartRepository.save(cart);
         var jwtToken = jwtService.generateToken(user);
         var userSaved = userRepository.save(user);
@@ -95,7 +99,8 @@ public class UserService {
 
     public AuthenticationResponse authenticate(
             AuthenticationRequest authenticationRequest,
-            HttpServletResponse response
+            HttpServletResponse response,
+            HttpServletRequest request
     ) {
 
         var user = userRepository.findByUsername(authenticationRequest.getUsername())
@@ -112,6 +117,50 @@ public class UserService {
         cookie.setHttpOnly(true);
 //         set age 1 day
         cookie.setMaxAge(60 * 60 * 24);
+
+        Cookie userCookie = new Cookie("user", user.getUsername());
+        userCookie.setPath("/");
+        userCookie.setMaxAge(60 * 60 * 24);
+
+        response.addCookie(userCookie);
+
+        if (user.getCart() != null) {
+            System.out.println("Cart found");
+            StringBuilder stringBuilder = new StringBuilder();
+            user.getCart().getCartProducts().forEach(product -> {
+                stringBuilder.append(product.getId());
+                stringBuilder.append("/");
+            });
+
+//            merge cart
+            Cookie productCookie = WebUtils.getCookie(request, "products");
+            if (productCookie != null && productCookie.getValue() != null) {
+                System.out.println("Cookie product found");
+                System.out.println(productCookie.getValue());
+                stringBuilder.append(productCookie.getValue());
+                productCookie.setMaxAge(60 * 60 * 24 * 30);
+                productCookie.setPath("/");
+                response.addCookie(productCookie);
+            } else {
+                System.out.println("Cookie product not found");
+            }
+            Cookie products = new Cookie("products",stringBuilder.toString() );
+            products.setPath("/");
+            products.setMaxAge(60 * 60 * 24);
+            response.addCookie(products);
+        } else {
+            Cookie products = WebUtils.getCookie(request, "products");
+
+            if (products != null && products.getValue() != null) {
+                System.out.println("Cookie product found");
+                System.out.println(products.getValue());
+                products.setMaxAge(0);
+                response.addCookie(products);
+            } else {
+                System.out.println("Cookie product not found");
+            }
+        }
+
 
         if (user.getRoles().contains(Role.ADMIN)) {
             response.addCookie(cookie);
@@ -150,5 +199,9 @@ public class UserService {
         });
 
         tokenRepository.saveAll(tokens);
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

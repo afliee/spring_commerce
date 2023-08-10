@@ -22,4 +22,5 @@ public class OrderDetail extends BaseEntity {
     @ManyToOne(targetEntity = Product.class)
     @JoinColumn(name = "product_id")
     private Product product;
+    private int quantity;
 }
